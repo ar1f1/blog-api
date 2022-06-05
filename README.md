@@ -1,8 +1,8 @@
 ### API endpoints
 
-## article API
+### article API
 
-# post
+## post
 http://localhost:8080/api/article/article --->  Add a new article 
 
 # get
