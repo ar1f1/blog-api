@@ -5,16 +5,16 @@
 ## post
 http://localhost:8080/api/article/article --->  Add a new article 
 
-# get
+## get
 http://localhost:8080/api/article/article ---> To get all Articles
 
-# post
+## post
 http://localhost:8080/api/article/article/:id ---> Comment to an Article with ObjectId=id
 
-# get
+## get
 http://localhost:8080/api/article/article/:id ---> To get all Articles with ObjectId=id
 
-# put
+## put
 http://localhost:8080/api/article/article/:id ---> To update an Article with ObjectId=id
 
 
