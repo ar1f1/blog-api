@@ -1,3 +1,10 @@
+### For run project
+npm install 
+npm run dev
+
+
+
+
 ### API endpoints
 
 ### article API
