@@ -35,5 +35,24 @@ http://localhost:8080/api/article/:id/tags---> To get all tags of an article
 ## post
 http://localhost:8080/api/article/:id/tags---> To add tags to an article
 
+### Tag API
+ 
+## post
+http://localhost:8080/api/tag ---> To add tags to an tag
+
+## get
+http://localhost:8080/api/tag/tag_id---> To get titile of all articles have an spicifec tag
+
+### Comment API
+##get
+http://localhost:8080/api/commetn---> To get all commetns
+
+## put
+http://localhost:8080/api/comment/commetn_id ---> To update an exist commetn
+
+
+
+
+
 
 
