@@ -44,7 +44,7 @@ http://localhost:8080/api/tag ---> To add tags to an tag
 http://localhost:8080/api/tag/tag_id---> To get titile of all articles have an spicifec tag
 
 ### Comment API
-##get
+## get
 http://localhost:8080/api/commetn---> To get all commetns
 
 ## put
