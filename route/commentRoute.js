@@ -5,9 +5,8 @@ const router = express.Router()
 
 router.use(express.json())
 
-router.post('/comment', comment.addComment);
-router.get('/comment', comment.comments)
-router.get('/comment/:id', comment.articleComments)
+router.get('/', comment.comments)
+router.put('/:id', comment.editAComment)
 
 
 
