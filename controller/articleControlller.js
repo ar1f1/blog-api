@@ -1,6 +1,8 @@
 const Article = require('../model/articleSchema');
 const Comment = require('../model/commentSchema')
 
+
+// to add new article
 const addArtilce = async(req, res) => {
     const { image, title, description, context, pub_date } = req.body;
     if (!(image && title && description && context)) {
@@ -17,6 +19,8 @@ const addArtilce = async(req, res) => {
     }
 }
 
+
+// for get all artilces
 const artilces = async(req, res) => {
     const artilce = await Article.find()
     if (artilce) {
@@ -26,7 +30,20 @@ const artilces = async(req, res) => {
     }
 }
 
-const addArticleComment = async(req, res) => {
+// to get an specific article
+const anArticle = async(req, res) => {
+    try {
+        const id = req.params.id
+        const article = await Article.find({ _id: id })
+        res.status(200).json(article)
+    } catch (error) {
+        res.status(400).json(error.message)
+    }
+}
+
+
+// Comment ot an article with id 
+const commentToArticle = async(req, res) => {
 
     const id = req.params.id
     const comment = await Comment.create(req.body)
@@ -41,15 +58,13 @@ const addArticleComment = async(req, res) => {
         }
     }
 }
-const anArticle = async(req, res) => {
-    try {
-        const id = req.params.id
-        const article = await Article.find({ _id: id })
-        res.status(200).json(article)
-    } catch (error) {
-        res.status(400).json(error.message)
-    }
-}
+
+
+// to get all commetns of an artilce with an artilce id 
+const articleComments; //TODO
+
+
+// to update an artilce with id
 const editAnArticle = async(req, res) => {
     try {
         const id = req.params.id;
@@ -69,11 +84,21 @@ const editAnArticle = async(req, res) => {
         res.status(400).json({ "message": error.message })
     }
 }
+
+
+// to get all tags of an article
+const getTags;
+
+// to add tags to an article
+const tagToArticle;
 module.exports = {
     addArtilce,
     artilces,
-    addArticleComment,
     anArticle,
-    editAnArticle
+    commentToArticle,
+    articleComments,
+    editAnArticle,
+    getTags,
+    tagToArticle
 
 }

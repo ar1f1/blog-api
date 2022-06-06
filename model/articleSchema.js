@@ -8,7 +8,8 @@ const articleShema = mongoose.Schema({
     description: { type: String, required: true },
     context: { type: String, required: true },
     pub_date: { type: Date, default: Date.now },
-    comment: [{ type: mongoose.Schema.Types.ObjectId, red: "comment" }],
+    comment: [{ type: mongoose.Schema.Types.ObjectId, ref: "comment" }],
+    tag: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tag' }],
     auther: { type: mongoose.Schema.Types.ObjectId, ref: 'auther' },
     edit_date: Date
 })
