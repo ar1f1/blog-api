@@ -7,7 +7,9 @@ const tag = require('./route/tagRoute')
 const comment = require('./route/commentRoute')
 const path = require('path')
 const ejs = require('ejs')
-    // const front_route = require('./route/front_route')
+
+// const front_route = require('./route/front_route')
+
 
 const app = express()
 app.use(express.json())
@@ -22,6 +24,7 @@ app.use('/api/tag', tag)
 app.use('/api/comment', comment)
 app.use('/api/user', user)
     // app.use('/front', front_route)
+
 
 
 

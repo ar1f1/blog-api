@@ -1,6 +1,8 @@
 const Article = require('../model/articleSchema');
 const Comment = require('../model/commentSchema');
 const Tag = require('../model/tagSchema');
+const fs = require('fs');
+const path = require('path')
 
 
 // to add new article
@@ -8,10 +10,19 @@ const addArtilce = async(req, res) => {
     try {
         const { image, title, description, context, pub_date } = req.body;
         if (!(image && title && description && context)) {
-            res.status(400).json({ error: "Title, Description and  Context list is required!" })
+            res.status(400).json({ error: "Image URL, Title, Description and  Context list is required!" })
         } else {
+            var file = fs.readFileSync(image)
+            var uploadPath = './public/images/' + new Date().getTime() + path.basename(image)
+            const extention = path.extname(image)
+            if (extention === '.jpg' || extention === '.png' || extention === 'jpeg') {
+                fs.writeFileSync(uploadPath, file)
+            } else {
+                res.json({ "message": "Image file must had .jpg, .png or jpeg extentions" })
+            }
+
             const article = await Article.create({
-                image,
+                image: uploadPath,
                 title,
                 description,
                 context,
