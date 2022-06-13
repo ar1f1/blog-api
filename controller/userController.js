@@ -1,74 +1,63 @@
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-    // const auth = require("../middleware/auth");
-
 const User = require('../model/userSchema')
 
-// const express = require('express');
+const createToken = (id) => {
+    return jwt.sign(id, "I love you! my queen", { expiresIn: maxAge })
 
-// const app = express()
-// app.use(express.json());
+}
+const handle_errors = (err) => {
 
+    let errors = { email: "", password: "" }
 
-// app.post("/welcome", auth, (req, res) => {
-//     res.status(200).send("Welcome 🙌 ");
-// });
+    // Incorrect email
+    if (err.message === "Incorrect email") {
+        errors.email = "This email not registered"
+    }
+    // incorrect password
+    if (err.message === "Incorrect password")[
+        errors.password = "The password is incorrect"
+    ]
 
-const registerUser = async(req, res) => {
-    const { userName, email, password } = req.body;
-    if (!(userName && email && password)) {
-        res.status(400).json({ error: "Please enter all of fields(userName, email and password)" });
-    } else {
-        const oldUser = await User.findOne({ email });
-        if (oldUser) {
-            return res.status(409).json({ error: "User Already Exist. Please Login" });
-        } else {
-            encryptedPassword = await bcrypt.hash(password, 10);
-            const user = await User.create({
-                userName,
-                email: email.toLowerCase(), // sanitize: convert email to lowercase
-                password: encryptedPassword,
-            });
-            const token = jwt.sign({ user_id: user._id, email },
-                process.env.TOKEN_KEY, {
-                    expiresIn: "2m",
-                }
-            );
-            user.token = token;
-            res.status(200).json(user);
-        }
+    // duplicate error code
+    if (err.code === 11000) {
+        errors.email = "email already exist"
+        return errors
     }
 
-};
+    // user validate error
+    if (err.message.includes("user validation failed")) {
+        Object.values(err.errors).forEach(({ properties }) => {
+            errors[properties.path] = properties.message
+        })
+    }
+    return errors
+}
 
 const loginUser = async(req, res) => {
+    try {
+        const { userName, password } = req.body;
+        const user = await User.login(userName, password)
+        const token = createToken(user._id)
+        res.cookie('jwt', "I love you! my queen", { httpOnlu: true, maxAge: maxAge * 60 * 1000 })
+        res.status(200).json({ user: user._id })
+    } catch (error) {
+        const errors = handle_errors(error)
+        res.status(400).json({ errors })
+    }
+}
+
+const registerUser = async(req, res) => {
 
 
     // Get user input
-    const { email, password } = req.body;
-    // Validate user input
-    if (!(email && password)) {
-        res.status(400).json({ error: "Please enter email and password!" })
-    } else {
-        // Validate if user exist in our database
-        const user = await User.findOne({ email });
-        if (user == null) { res.status(400).json({ error: "The email you have've entred is incorrect" }) } else {
-            if (user && (await bcrypt.compare(password, user.password))) {
-                // Create token
-                const token = jwt.sign({ user_id: user._id, email },
-                    process.env.TOKEN_KEY, {
-                        expiresIn: "1h",
-                    }
-                );
+    try {
+        const { userName, email, password } = req.body
+        const user = await User.create(userName, email, password)
+        res.status(200).json({ user: user._id })
 
-                // save user token
-                user.token = token;
-
-                // user
-                res.status(200).json(user);
-            } else { res.status(400).json({ error: "The password you have've entered is inccorect!" }) }
-
-        }
+    } catch (error) {
+        const errors = await handle_errors(error)
+        res.status(400).json({ errors })
 
 
     }
