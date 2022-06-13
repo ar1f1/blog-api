@@ -3,6 +3,8 @@ const Comment = require('../model/commentSchema');
 const Tag = require('../model/tagSchema');
 const fs = require('fs');
 const path = require('path')
+const { require_Auth } = require('../middleware/auth')
+
 
 
 // to add new article

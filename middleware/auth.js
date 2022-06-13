@@ -1,21 +1,18 @@
 const jwt = require("jsonwebtoken");
+const User = require('../model/userSchema')
 
-const config = process.env;
-
-const verifyToken = (req, res, next) => {
-    const token =
-        req.body.token || req.query.token || req.headers["x-access-token"];
-
-    if (!token) {
-        return res.status(403).send("A token is required for authentication");
+module.exports.require_auth = async(req, res, next) => {
+    const token = req.cookies.jwt
+    console.log(token)
+    if (token) {
+        jwt.verify(token, "I love you! my queen", (err, decodedToken) => {
+            if (err) {
+                res.status(400).json({ Error: " required login" })
+            } else {
+                next()
+            }
+        })
+    } else {
+        res.status(400).json({ Error: " required login" })
     }
-    try {
-        const decoded = jwt.verify(token, config.TOKEN_KEY);
-        req.user = decoded;
-    } catch (err) {
-        return res.status(401).send("Invalid Token");
-    }
-    return next();
-};
-
-module.exports = verifyToken;
+}

@@ -1,4 +1,5 @@
 const express = require('express')
+const auth = require('../middleware/auth')
 const article = require('../controller/articleControlller')
 
 const router = express.Router()
@@ -8,7 +9,7 @@ router.use(express.json())
 router.post('/article', article.addArtilce)
 
 // for get all artilces
-router.get('/article', article.artilces)
+router.get('/article', auth.require_auth, article.artilces)
 
 // to get an specific article
 router.get('/:id', article.anArticle)

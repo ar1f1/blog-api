@@ -6,12 +6,14 @@ const tag = require('./route/tagRoute')
 const comment = require('./route/commentRoute')
 const path = require('path')
 const ejs = require('ejs')
+const cookieParser = require('cookie-parser')
 
 // const front_route = require('./route/front_route')
 
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
